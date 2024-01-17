@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "566802056091",
+    "project_id": "work-hub-7610d",
+    "storage_bucket": "work-hub-7610d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566802056091:android:9563247707796fdda4d73e",
+        "android_client_info": {
+          "package_name": "com.example.workhub_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkltPN1wvyt_F5csLhXusbQ02dNDuhYVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566802056091:android:a25511d11d8f75a5a4d73e",
+        "android_client_info": {
+          "package_name": "com.example.workhub_web"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkltPN1wvyt_F5csLhXusbQ02dNDuhYVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
