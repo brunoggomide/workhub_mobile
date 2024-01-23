@@ -1,5 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:workhub_mobile/views/auth/login/login.dart';
+
+import '../auth/sign up/sign-up.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -41,18 +44,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
-            //   child: Align(
-            //     alignment: Alignment.center,
-            //     child: SizedBox(
-            //       width: double.infinity,
-            //       height: 1000,
-            //       child:
-            //           Image.network("assets/images/homepage.jpg", scale: .85),
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
               child: Align(
@@ -76,9 +67,17 @@ class HomePage extends StatelessWidget {
                         backgroundColor: Color.fromRGBO(177, 47, 47, 1),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12))),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (c) {
+                            return Login();
+                          },
+                        ),
+                      );
+                    },
                     child: const Text(
-                      'LOGIN',
+                      'ENTRAR',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -103,7 +102,15 @@ class HomePage extends StatelessWidget {
                       side: const BorderSide(
                           width: 2, color: Color.fromRGBO(177, 47, 47, 1)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (c) {
+                            return SignUp();
+                          },
+                        ),
+                      );
+                    },
                     child: const Text(
                       'CADASTRAR',
                       style: TextStyle(
