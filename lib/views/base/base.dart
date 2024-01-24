@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../profile/profile.dart';
+
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
 
@@ -21,7 +23,7 @@ class _BaseScreenState extends State<BaseScreen> {
         children: [
           Container(color: Colors.red),
           Container(color: Colors.green),
-          Container(color: Colors.blue),
+          const Profile(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

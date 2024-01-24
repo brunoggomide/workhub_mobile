@@ -130,4 +130,38 @@ class AuthController {
       ),
     );
   }
+
+  //ID DO USUARIO
+  idUsuario() {
+    return FirebaseAuth.instance.currentUser!.uid;
+  }
+
+  // NOME do Usuário Logado
+  Future<String> getNome() async {
+    var nome = '';
+    await FirebaseFirestore.instance
+        .collection('usuarios')
+        .where('uid', isEqualTo: idUsuario())
+        .get()
+        .then(
+      (resultado) {
+        nome = resultado.docs[0].data()['nome'] ?? '';
+      },
+    );
+    return nome;
+  }
+
+  Future<String> getEmail() async {
+    var email = '';
+    await FirebaseFirestore.instance
+        .collection('usuarios')
+        .where('uid', isEqualTo: idUsuario())
+        .get()
+        .then(
+      (resultado) {
+        email = resultado.docs[0].data()['email'] ?? '';
+      },
+    );
+    return email;
+  }
 }
