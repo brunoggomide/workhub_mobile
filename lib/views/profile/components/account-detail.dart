@@ -101,12 +101,6 @@ class _AccountDetailState extends State<AccountDetail> {
                       thickness: 2,
                     ),
                   ),
-                  Expanded(
-                    child: Divider(
-                      color: Colors.grey.withAlpha(90),
-                      thickness: 2,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -161,12 +155,6 @@ class _AccountDetailState extends State<AccountDetail> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 children: [
-                  Expanded(
-                    child: Divider(
-                      color: Colors.grey.withAlpha(90),
-                      thickness: 2,
-                    ),
-                  ),
                   Expanded(
                     child: Divider(
                       color: Colors.grey.withAlpha(90),
@@ -233,12 +221,6 @@ class _AccountDetailState extends State<AccountDetail> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 children: [
-                  Expanded(
-                    child: Divider(
-                      color: Colors.grey.withAlpha(90),
-                      thickness: 2,
-                    ),
-                  ),
                   Expanded(
                     child: Divider(
                       color: Colors.grey.withAlpha(90),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:workhub_mobile/views/booking/booking.dart';
+import 'package:workhub_mobile/views/places/places.dart';
 
 import '../profile/profile.dart';
 
@@ -20,10 +22,10 @@ class _BaseScreenState extends State<BaseScreen> {
       body: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: [
-          Container(color: Colors.red),
-          Container(color: Colors.green),
-          const Profile(),
+        children: const [
+          Places(),
+          Booking(),
+          Profile(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
