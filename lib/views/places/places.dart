@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workhub_mobile/views/description_place/descriptions.dart';
 
 import 'components/item_place.dart';
 
@@ -136,7 +137,13 @@ class _PlacesState extends State<Places> {
                     title: "Center Poly Br",
                     path: 'assets/images/place1.jpg',
                     onPressed: () {
-                      print('toc');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (c) {
+                            return const DescriptionPlace();
+                          },
+                        ),
+                      );
                     },
                   );
                 } else if (_showRooms) {
