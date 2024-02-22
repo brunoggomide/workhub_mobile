@@ -45,6 +45,8 @@ dependencies:
   image_picker: ^1.0.4
   firebase_storage: ^11.6.0
   carousel_slider: ^4.2.1
+  http: ^0.13.6
+  flutter_typeahead: ^4.8.0
 
 dev_dependencies:
   flutter_test:

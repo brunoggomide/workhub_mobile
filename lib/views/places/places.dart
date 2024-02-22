@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workhub_mobile/views/description_place/descriptions.dart';
-
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import '../../services/city_services.dart';
 import 'components/item_place.dart';
 
 class Places extends StatefulWidget {
@@ -11,7 +12,7 @@ class Places extends StatefulWidget {
 }
 
 class _PlacesState extends State<Places> {
-  String _searchText = '';
+  var txtCity = TextEditingController();
   bool _showTables = true;
   bool _showRooms = false;
 
@@ -22,35 +23,47 @@ class _PlacesState extends State<Places> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                isDense: true,
-                hintText: 'Buscar cidade...',
-                hintStyle: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
-                prefixIcon: const Icon(
-                  Icons.search,
-                  size: 20,
-                  color: Colors.grey,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(60),
-                  borderSide: const BorderSide(
-                    color: Colors.black,
-                    width: 1,
-                    style: BorderStyle.solid,
+            child: TypeAheadField(
+              textFieldConfiguration: TextFieldConfiguration(
+                controller: txtCity,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  isDense: true,
+                  hintText: 'Buscar cidade...',
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    size: 20,
+                    color: Colors.grey,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(60),
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                      width: 1,
+                      style: BorderStyle.solid,
+                    ),
                   ),
                 ),
               ),
-              onChanged: (value) {
-                setState(() {
-                  _searchText = value;
-                });
+              suggestionsCallback: (pattern) async {
+                return await getCitys(pattern);
               },
+              itemBuilder: (context, suggestion) {
+                return ListTile(
+                  title:
+                      Text(suggestion['nome'] + ' - ' + suggestion['estado']),
+                );
+              },
+              onSuggestionSelected: (suggestion) {
+                this.txtCity.text = suggestion['nome'];
+              },
+              hideOnLoading: true,
+              hideOnEmpty: true,
             ),
           ),
           Padding(
