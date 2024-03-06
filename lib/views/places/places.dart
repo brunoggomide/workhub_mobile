@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:workhub_mobile/views/description_place/descriptions.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import '../../controllers/desk/desk_dao.dart';
+import '../../controllers/room/room_dao.dart';
 import '../../services/city_services.dart';
 import 'components/item_place.dart';
 
@@ -60,7 +63,9 @@ class _PlacesState extends State<Places> {
                 );
               },
               onSuggestionSelected: (suggestion) {
-                this.txtCity.text = suggestion['nome'];
+                setState(() {
+                  this.txtCity.text = suggestion['nome'];
+                });
               },
               hideOnLoading: true,
               hideOnEmpty: true,
@@ -136,44 +141,18 @@ class _PlacesState extends State<Places> {
               ],
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              physics: const BouncingScrollPhysics(),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                // Use as variáveis _showTables e _showRooms para decidir quais itens mostrar
-                if (_showTables) {
-                  return ItemPlaces(
-                    address:
-                        "Rua Rui Barbosa, 850, Centro - Ribeirão Preto / SP",
-                    title: "Center Poly Br",
-                    path: 'assets/images/place1.jpg',
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (c) {
-                            return const DescriptionPlace();
-                          },
-                        ),
-                      );
-                    },
-                  );
-                } else if (_showRooms) {
-                  return ItemPlaces(
-                    address:
-                        "Av Pres. Vargas, 1200, Jd São Luiz - Ribeirão Preto / SP",
-                    title: "Sala Preciosa",
-                    path: 'assets/images/place2.jpg',
-                    onPressed: () {
-                      print('toc');
-                    },
-                  );
-                }
-                return Container();
-              },
+          if (txtCity.text.isEmpty)
+            const Center(
+              child: Text('Preencha a cidade.'),
+            )
+          else if (_showTables)
+            ShowTable()
+          else if (_showRooms)
+            ShowRoom()
+          else
+            const Center(
+              child: Text('Sem dados.'),
             ),
-          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -186,6 +165,136 @@ class _PlacesState extends State<Places> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+
+  Widget ShowTable() {
+    bool noDataMessageShown = false;
+
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: DeskDao().listar().snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none) {
+            return const Center(
+              child: Text('Não foi possível conectar.'),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            final dados = snapshot.requireData;
+            if (dados.size > 0) {
+              List<QueryDocumentSnapshot> sortedData = dados.docs;
+              sortedData.sort((a, b) => a['title'].compareTo(b['title']));
+              return ListView.builder(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                physics: const BouncingScrollPhysics(),
+                itemCount: sortedData.length,
+                itemBuilder: (context, index) {
+                  dynamic item = sortedData[index].data();
+                  print(item);
+                  String address = item['address'];
+                  String num_address = item['num_address'];
+                  String bairro = item['bairro'];
+                  String city = item['city'];
+                  String uf = item['uf'];
+                  String title = item['title'];
+                  String image = item['image'][0];
+                  print(image);
+                  if (city.contains(txtCity.text)) {
+                    return ItemPlaces(
+                      address: '$address, $num_address, $bairro - $city - $uf',
+                      title: title,
+                      path: image.isEmpty ? 'assets/images/noImage.jpg' : image,
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (c) {
+                              return DescriptionPlace(
+                                item: item,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    if (!noDataMessageShown) {
+                      noDataMessageShown = true;
+                      return const Center(
+                        child: Text('Ainda não temos mesa nessa cidade.'),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  }
+                },
+              );
+            } else {
+              return const Center(
+                child: Text('Sem dados.'),
+              );
+            }
+          }
+        },
+      ),
+    );
+  }
+
+  Widget ShowRoom() {
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: RoomDao().listar().snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none) {
+            return const Center(
+              child: Text('Não foi possível conectar.'),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            final dados = snapshot.requireData;
+            if (dados.size > 0) {
+              List<QueryDocumentSnapshot> sortedData = dados.docs;
+              sortedData.sort((a, b) => a['titulo'].compareTo(b['titulo']));
+              return ListView.builder(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                physics: const BouncingScrollPhysics(),
+                itemCount: sortedData.length,
+                itemBuilder: (context, index) {
+                  dynamic item = sortedData[index].data();
+                  print(item);
+                  return ItemPlaces(
+                    address: 'aaaaaaaaaaaaaaa',
+                    // '$address, $num_address, $bairro - $city - $uf',
+                    title: 'title',
+                    path: 'assets/images/noImage.jpg',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (c) {
+                            return DescriptionPlace(
+                              item: item,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            } else {
+              return const Center(
+                child: Text('Sem dados.'),
+              );
+            }
+          }
+        },
+      ),
     );
   }
 }

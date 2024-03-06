@@ -13,13 +13,13 @@ class UserController {
 
   getData() {
     return FirebaseFirestore.instance
-        .collection('usuarios')
+        .collection('clientes')
         .where('uid', isEqualTo: idUsuario());
   }
 
   void atualizar(context, String id, UsuarioModel ex) {
     FirebaseFirestore.instance
-        .collection('usuarios')
+        .collection('clientes')
         .doc(id)
         .update(ex.toJson())
         .then((value) => sucesso(context, 'Atualizado com sucesso'))

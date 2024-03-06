@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class DescriptionPlace extends StatelessWidget {
-  const DescriptionPlace({Key? key}) : super(key: key);
+class DescriptionPlace extends StatefulWidget {
+  const DescriptionPlace({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
 
+  final dynamic item;
+
+  @override
+  State<DescriptionPlace> createState() => _DescriptionPlaceState();
+}
+
+class _DescriptionPlaceState extends State<DescriptionPlace> {
   Widget buildText(String text, double fontSize) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
