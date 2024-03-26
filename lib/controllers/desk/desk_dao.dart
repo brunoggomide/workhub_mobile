@@ -6,4 +6,10 @@ class DeskDao {
         .collection('mesas')
         .where('status', isEqualTo: true);
   }
+
+  listarUma(id) {
+    return FirebaseFirestore.instance
+        .collection('mesas')
+        .where('id', isEqualTo: id);
+  }
 }

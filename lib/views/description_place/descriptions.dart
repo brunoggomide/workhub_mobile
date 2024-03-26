@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../reservation/reservation.dart';
+
 class DescriptionPlace extends StatefulWidget {
   const DescriptionPlace({
     Key? key,
     required this.item,
+    required this.id,
   }) : super(key: key);
 
   final dynamic item;
+  final String id;
 
   @override
   State<DescriptionPlace> createState() => _DescriptionPlaceState();
@@ -91,13 +95,22 @@ class _DescriptionPlaceState extends State<DescriptionPlace> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      buildText('Center Poly Br', 20),
+                      buildText(widget.item['title'], 20),
                       const SizedBox(height: 5),
                       buildText(
-                          'Rua Rui Barbosa, 850, Centro - Ribeirão Preto / SP',
+                          widget.item['address'] +
+                              ', ' +
+                              widget.item['num_address'] +
+                              ', ' +
+                              widget.item['bairro'] +
+                              ' - ' +
+                              widget.item['city'] +
+                              ' / ' +
+                              widget.item['uf'],
                           14),
                       const SizedBox(height: 10),
-                      buildText('R\$ 15,00 / Hora', 18),
+                      buildText(
+                          'R\$ ' + widget.item['value_hour'] + '/ Hora', 18),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
@@ -113,15 +126,32 @@ class _DescriptionPlaceState extends State<DescriptionPlace> {
                         ),
                       ),
                       buildText('Recursos do espaço', 18),
-                      const SizedBox(height: 10),
-                      buildRowWithIcon(Icons.local_cafe, 'Café'),
-                      const SizedBox(height: 10),
-                      buildRowWithIcon(Icons.local_parking, 'Estacionamento'),
-                      const SizedBox(height: 10),
-                      buildRowWithIcon(Icons.severe_cold, 'Ar-condicionado'),
-                      const SizedBox(height: 10),
-                      buildRowWithIcon(
-                          Icons.wheelchair_pickup, 'Acessibilidade'),
+                      if (widget.item['coffe'] == true) ...[
+                        const SizedBox(height: 10),
+                        buildRowWithIcon(Icons.local_cafe, 'Café'),
+                      ],
+                      if (widget.item['park'] == true) ...[
+                        const SizedBox(height: 10),
+                        buildRowWithIcon(Icons.local_parking, 'Estacionamento'),
+                      ],
+                      if (widget.item['air'] == true) ...[
+                        const SizedBox(height: 10),
+                        buildRowWithIcon(Icons.severe_cold, 'Ar-condicionado'),
+                      ],
+                      if (widget.item['accessibility'] == true) ...[
+                        const SizedBox(height: 10),
+                        buildRowWithIcon(
+                            Icons.wheelchair_pickup, 'Acessibilidade'),
+                      ],
+                      if (widget.item['bike'] == true) ...[
+                        const SizedBox(height: 10),
+                        buildRowWithIcon(Icons.pedal_bike, 'Bicicletário'),
+                      ],
+                      if (widget.item['space'] == true) ...[
+                        const SizedBox(height: 10),
+                        buildRowWithIcon(
+                            Icons.interests_sharp, 'Espaço Interativo'),
+                      ],
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
@@ -139,7 +169,7 @@ class _DescriptionPlaceState extends State<DescriptionPlace> {
                       buildText('Descrição', 18),
                       const SizedBox(height: 10),
                       buildText(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                        widget.item['description'],
                         18,
                       ),
                     ],
@@ -157,7 +187,18 @@ class _DescriptionPlaceState extends State<DescriptionPlace> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (c) {
+                          return Reservation(
+                            item: widget.item,
+                            id: widget.id,
+                          );
+                        },
+                      ),
+                    );
+                  },
                   child: const Text(
                     'RESERVAR',
                     style: TextStyle(

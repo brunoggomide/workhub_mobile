@@ -8,7 +8,6 @@ import '../../views/utils/env.dart';
 
 class AuthController {
   criarConta(context, nome, documento, contato, email, senha) {
-    print('aqui');
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: senha)
         .then((res) {
@@ -89,7 +88,6 @@ class AuthController {
       }
     }).catchError((error) {
       // Handle Firestore query error
-      print('Error querying Firestore: $error');
       erro(context, 'Erro ao verificar o e-mail.');
     });
   }

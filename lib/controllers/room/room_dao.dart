@@ -5,4 +5,10 @@ class RoomDao {
     return FirebaseFirestore.instance.collection('salas');
     // .where('status', isEqualTo: true);
   }
+
+  listarUma(id) {
+    return FirebaseFirestore.instance
+        .collection('salas')
+        .where('id', isEqualTo: id);
+  }
 }

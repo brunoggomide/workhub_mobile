@@ -194,7 +194,7 @@ class _PlacesState extends State<Places> {
                 itemCount: sortedData.length,
                 itemBuilder: (context, index) {
                   dynamic item = sortedData[index].data();
-                  print(item);
+                  String id = sortedData[index].id;
                   String address = item['address'];
                   String num_address = item['num_address'];
                   String bairro = item['bairro'];
@@ -202,7 +202,6 @@ class _PlacesState extends State<Places> {
                   String uf = item['uf'];
                   String title = item['title'];
                   String image = item['image'][0];
-                  print(image);
                   if (city.contains(txtCity.text)) {
                     return ItemPlaces(
                       address: '$address, $num_address, $bairro - $city - $uf',
@@ -214,6 +213,7 @@ class _PlacesState extends State<Places> {
                             builder: (c) {
                               return DescriptionPlace(
                                 item: item,
+                                id: id,
                               );
                             },
                           ),
@@ -267,7 +267,7 @@ class _PlacesState extends State<Places> {
                 itemCount: sortedData.length,
                 itemBuilder: (context, index) {
                   dynamic item = sortedData[index].data();
-                  print(item);
+                  String id = sortedData[index].id;
                   return ItemPlaces(
                     address: 'aaaaaaaaaaaaaaa',
                     // '$address, $num_address, $bairro - $city - $uf',
@@ -279,6 +279,7 @@ class _PlacesState extends State<Places> {
                           builder: (c) {
                             return DescriptionPlace(
                               item: item,
+                              id: id,
                             );
                           },
                         ),
