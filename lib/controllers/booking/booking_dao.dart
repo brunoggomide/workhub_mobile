@@ -23,9 +23,10 @@ class BookingDao {
         .whenComplete(() => Navigator.of(context).pop());
   }
 
-  listar(id) {
+  listar(String id) {
     return FirebaseFirestore.instance
         .collection('reservas')
-        .where('uid_cliente', isEqualTo: id);
+        .where('uid_cliente', isEqualTo: id)
+        .get();
   }
 }

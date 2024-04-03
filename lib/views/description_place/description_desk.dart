@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../reservation/reservation.dart';
+import '../reservation/reservation_desk.dart';
 
-class DescriptionPlace extends StatefulWidget {
-  const DescriptionPlace({
+class DescriptionDesk extends StatefulWidget {
+  const DescriptionDesk({
     Key? key,
     required this.item,
     required this.id,
@@ -14,10 +14,10 @@ class DescriptionPlace extends StatefulWidget {
   final String id;
 
   @override
-  State<DescriptionPlace> createState() => _DescriptionPlaceState();
+  State<DescriptionDesk> createState() => _DescriptionDeskState();
 }
 
-class _DescriptionPlaceState extends State<DescriptionPlace> {
+class _DescriptionDeskState extends State<DescriptionDesk> {
   Widget buildText(String text, double fontSize) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -98,19 +98,19 @@ class _DescriptionPlaceState extends State<DescriptionPlace> {
                       buildText(widget.item['title'], 20),
                       const SizedBox(height: 5),
                       buildText(
-                          widget.item['address'] +
-                              ', ' +
-                              widget.item['num_address'] +
-                              ', ' +
-                              widget.item['bairro'] +
-                              ' - ' +
-                              widget.item['city'] +
-                              ' / ' +
-                              widget.item['uf'],
-                          14),
+                        '${widget.item['address']}, ${widget.item['num_address']}${widget.item['complemento'].isNotEmpty ? ', ' + widget.item['complemento'] : ''}, ${widget.item['bairro']} - ${widget.item['city']} / ${widget.item['uf']}',
+                        14,
+                      ),
                       const SizedBox(height: 10),
                       buildText(
                           'R\$ ' + widget.item['value_hour'] + '/ Hora', 18),
+                      const SizedBox(height: 10),
+                      buildText(
+                          'Seg - Sex ' +
+                              widget.item['abertura'] +
+                              ' - ' +
+                              widget.item['fechamento'],
+                          16),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
@@ -191,7 +191,7 @@ class _DescriptionPlaceState extends State<DescriptionPlace> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (c) {
-                          return Reservation(
+                          return ReservationDesk(
                             item: widget.item,
                             id: widget.id,
                           );

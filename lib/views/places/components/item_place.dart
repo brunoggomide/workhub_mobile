@@ -14,6 +14,16 @@ class ItemPlaces extends StatelessWidget {
   final dynamic path;
   final VoidCallback onPressed;
 
+  ImageProvider<Object> _buildImage(String path) {
+    return _isUrl(path)
+        ? NetworkImage(path)
+        : AssetImage(path) as ImageProvider<Object>;
+  }
+
+  bool _isUrl(String path) {
+    return Uri.tryParse(path)?.hasAbsolutePath ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -38,7 +48,7 @@ class ItemPlaces extends StatelessWidget {
                   topRight: Radius.circular(20),
                 ),
                 image: DecorationImage(
-                  image: AssetImage(path),
+                  image: _buildImage(path),
                   fit: BoxFit.cover,
                 ),
               ),

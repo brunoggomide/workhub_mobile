@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:workhub_mobile/views/description_place/descriptions.dart';
+import 'package:workhub_mobile/views/description_place/description_desk.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:workhub_mobile/views/description_place/description_room.dart';
 import '../../controllers/desk/desk_dao.dart';
 import '../../controllers/room/room_dao.dart';
 import '../../services/city_services.dart';
@@ -198,20 +199,22 @@ class _PlacesState extends State<Places> {
                   String address = item['address'];
                   String num_address = item['num_address'];
                   String bairro = item['bairro'];
+                  String complemento = item['complemento'];
                   String city = item['city'];
                   String uf = item['uf'];
                   String title = item['title'];
                   String image = item['image'][0];
                   if (city.contains(txtCity.text)) {
                     return ItemPlaces(
-                      address: '$address, $num_address, $bairro - $city - $uf',
+                      address:
+                          '$address, $num_address${complemento.isNotEmpty ? ', $complemento' : ''}, $bairro - $city - $uf',
                       title: title,
                       path: image.isEmpty ? 'assets/images/noImage.jpg' : image,
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (c) {
-                              return DescriptionPlace(
+                              return DescriptionDesk(
                                 item: item,
                                 id: id,
                               );
@@ -224,7 +227,7 @@ class _PlacesState extends State<Places> {
                     if (!noDataMessageShown) {
                       noDataMessageShown = true;
                       return const Center(
-                        child: Text('Ainda não temos mesa nessa cidade.'),
+                        child: Text('Ainda não temos mesas nessa cidade.'),
                       );
                     } else {
                       return Container();
@@ -244,6 +247,8 @@ class _PlacesState extends State<Places> {
   }
 
   Widget ShowRoom() {
+    bool noDataMessageShown = false;
+
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: RoomDao().listar().snapshots(),
@@ -268,24 +273,44 @@ class _PlacesState extends State<Places> {
                 itemBuilder: (context, index) {
                   dynamic item = sortedData[index].data();
                   String id = sortedData[index].id;
-                  return ItemPlaces(
-                    address: 'aaaaaaaaaaaaaaa',
-                    // '$address, $num_address, $bairro - $city - $uf',
-                    title: 'title',
-                    path: 'assets/images/noImage.jpg',
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (c) {
-                            return DescriptionPlace(
-                              item: item,
-                              id: id,
-                            );
-                          },
-                        ),
+                  String address = item['logradouro'];
+                  String num_address = item['numero'];
+                  String bairro = item['bairro'];
+                  String complemento = item['complemento'];
+                  String city = item['cidade'];
+                  String uf = item['uf'];
+                  String title = item['titulo'];
+                  String image = item['imagens'][0];
+                  if (city.contains(txtCity.text)) {
+                    return ItemPlaces(
+                      address:
+                          '$address, $num_address${complemento.isNotEmpty ? ', $complemento' : ''}, $bairro - $city - $uf',
+                      title: title,
+                      path: image.isEmpty ? 'assets/images/noImage.jpg' : image,
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (c) {
+                              return DescriptionRoom(
+                                item: item,
+                                id: id,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    if (!noDataMessageShown) {
+                      noDataMessageShown = true;
+                      return const Center(
+                        child: Text(
+                            'Ainda não temos salas de reunião nessa cidade.'),
                       );
-                    },
-                  );
+                    } else {
+                      return Container();
+                    }
+                  }
                 },
               );
             } else {

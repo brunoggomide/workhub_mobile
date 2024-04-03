@@ -10,6 +10,8 @@ class BookingModel {
   final String data;
   final String inicio;
   final String fim;
+  final String endereco;
+  final String local;
   final String criado_em;
   final String atualizado_em;
 
@@ -23,6 +25,8 @@ class BookingModel {
     this.data,
     this.inicio,
     this.fim,
+    this.endereco,
+    this.local,
     this.criado_em,
     this.atualizado_em,
   );
@@ -38,6 +42,8 @@ class BookingModel {
       'data': data,
       'inicio': inicio,
       'fim': fim,
+      'endereco': endereco,
+      'local': local,
       'criado_em': FieldValue.serverTimestamp(),
       'atualizado_em': FieldValue.serverTimestamp(),
     };
@@ -55,6 +61,8 @@ class BookingModel {
       json['data'],
       json['inicio'],
       json['fim'],
+      json['endereco'],
+      json['local'],
       json['criado_em'],
       json['atualizado_em'],
     );

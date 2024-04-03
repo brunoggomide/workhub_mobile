@@ -5,8 +5,8 @@ import '../../controllers/booking/booking_dao.dart';
 import '../../controllers/user/user_controller.dart';
 import '../../models/booking_model.dart';
 
-class Reservation extends StatefulWidget {
-  const Reservation({
+class ReservationDesk extends StatefulWidget {
+  const ReservationDesk({
     Key? key,
     required this.item,
     required this.id,
@@ -16,16 +16,17 @@ class Reservation extends StatefulWidget {
   final String id;
 
   @override
-  State<Reservation> createState() => _ReservationState();
+  State<ReservationDesk> createState() => _ReservationDeskState();
 }
 
-class _ReservationState extends State<Reservation> {
+class _ReservationDeskState extends State<ReservationDesk> {
   final pageController = PageController(initialPage: 0);
   var txtDate = TextEditingController(text: 'Selecione o dia');
   var txtDate2 = TextEditingController();
   var txtStart = TextEditingController(text: 'Selecione o início');
   var txtEnd = TextEditingController(text: 'Selecione o fim');
   var reservationValueText;
+  var endereco;
   String selectedPaymentMethod = '';
 
   // Função para verificar se a data é sábado ou domingo
@@ -552,6 +553,8 @@ class _ReservationState extends State<Reservation> {
           ),
         ),
         onPressed: () {
+          endereco =
+              '${widget.item['address']}, ${widget.item['num_address']}${widget.item['complemento'].isNotEmpty ? ', ' + widget.item['complemento'] : ''}, ${widget.item['bairro']} - ${widget.item['city']} / ${widget.item['uf']}';
           if (selectedPaymentMethod.isNotEmpty) {
             var book = BookingModel(
               UserController().idUsuario(),
@@ -563,6 +566,8 @@ class _ReservationState extends State<Reservation> {
               txtDate.text,
               txtStart.text,
               txtEnd.text,
+              endereco,
+              widget.item['title'],
               '',
               '',
             );

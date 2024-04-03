@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class ItemBooking extends StatelessWidget {
   const ItemBooking({
     Key? key,
-    required this.title,
-    required this.address,
-    required this.locale,
-    required this.month,
-    required this.date,
-    required this.time,
-    required this.status,
+    this.title = '',
+    this.address = '',
+    this.locale = '',
+    this.month = '',
+    this.date = '',
+    this.time = '',
+    this.status = '',
     required this.onPressed,
   }) : super(key: key);
 
