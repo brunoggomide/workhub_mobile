@@ -46,7 +46,6 @@ class _ReservationDeskState extends State<ReservationDesk> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.id);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -240,8 +239,6 @@ class _ReservationDeskState extends State<ReservationDesk> {
       reservationValueText =
           'R\$ ${totalValue.toStringAsFixed(2).replaceAll('.', ',')}';
     });
-
-    print(reservationValueText);
   }
 
   Widget _buildPaymentMethodOption(String method, IconData icon) {
@@ -486,6 +483,26 @@ class _ReservationDeskState extends State<ReservationDesk> {
                   SnackBar(
                     backgroundColor: Colors.red[300],
                     content: const Text('Fora do dia de funcionamento'),
+                  ),
+                );
+              } else if (DateTime(
+                DateTime.now().year,
+                DateTime.now().month,
+                DateTime.now().day,
+                DateTime.now().hour,
+                DateTime.now().minute,
+              ).toLocal().isAfter(DateTime(
+                      selectedDate.year,
+                      selectedDate.month,
+                      selectedDate.day,
+                      startTime.hour,
+                      startTime.minute)
+                  .toLocal())) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red[300],
+                    content:
+                        const Text('O inicio deve ser após o horario atual'),
                   ),
                 );
               } else if (!isWithinOpeningHours(widget.item['abertura'],

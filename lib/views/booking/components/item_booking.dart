@@ -5,7 +5,6 @@ class ItemBooking extends StatelessWidget {
     Key? key,
     this.title = '',
     this.address = '',
-    this.locale = '',
     this.month = '',
     this.date = '',
     this.time = '',
@@ -15,7 +14,6 @@ class ItemBooking extends StatelessWidget {
 
   final String title;
   final String address;
-  final String locale;
   final String month;
   final String date;
   final String time;
@@ -99,16 +97,6 @@ class ItemBooking extends StatelessWidget {
                           address,
                           style: const TextStyle(
                               fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Text(
-                          locale,
-                          style: const TextStyle(
-                              fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),

@@ -13,20 +13,27 @@ class BookingDao {
         .whenComplete(() => Navigator.of(context).pop());
   }
 
-  void atualizar(context, String id, BookingModel bm) {
+  atualizar(context, String id) {
     FirebaseFirestore.instance
         .collection('reservas')
         .doc(id)
-        .update(bm.toJson())
-        .then((value) => sucesso(context, 'Mesa atualizada com sucesso'))
+        .update({'status': 'Cancelado'})
+        .then((value) => sucesso(context, 'Reserva cancelada com sucesso'))
         .catchError((e) => erro(context, 'ERRO: ${e.code.toString()}'))
         .whenComplete(() => Navigator.of(context).pop());
   }
 
-  listar(String id) {
+  listarConfirmados(String id) {
     return FirebaseFirestore.instance
         .collection('reservas')
         .where('uid_cliente', isEqualTo: id)
-        .get();
+        .where('status', isEqualTo: 'Confirmado');
+  }
+
+  listarFinalizados(String id) {
+    return FirebaseFirestore.instance
+        .collection('reservas')
+        .where('uid_cliente', isEqualTo: id)
+        .where('status', whereIn: ['Cancelado', 'Finalizado']);
   }
 }

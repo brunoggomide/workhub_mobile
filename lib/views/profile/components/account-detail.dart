@@ -250,26 +250,6 @@ class _AccountDetailState extends State<AccountDetail> {
                     ),
                   )),
             ),
-            const SizedBox(height: 10),
-            Center(
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      // Adicione a lógica que você deseja executar quando o botão for pressionado
-                    },
-                    child: const Text(
-                      'Deletar conta',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )),
-            ),
           ],
         ),
       ),
