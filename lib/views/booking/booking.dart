@@ -54,11 +54,8 @@ class Booking extends StatelessWidget {
         child: Column(
           children: [
             StreamBuilder<QuerySnapshot>(
-              stream: BookingDao()
-                  .listarConfirmados(
-                    UserController().idUsuario(),
-                  )
-                  .snapshots(),
+              stream:
+                  BookingDao().listarConfirmados(UserController().idUsuario()),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.none) {
                   return const Center(
@@ -171,7 +168,7 @@ class Booking extends StatelessWidget {
                   final dados = snapshot.requireData;
                   if (dados.size > 0) {
                     List<QueryDocumentSnapshot> sortedData = dados.docs;
-                    sortedData.sort((a, b) => a['data'].compareTo(b['data']));
+                    sortedData.sort((b, a) => a['data'].compareTo(b['data']));
                     return ListView.builder(
                       shrinkWrap: true,
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -190,15 +187,7 @@ class Booking extends StatelessWidget {
                           date: formattedDay,
                           time: item['inicio'] + ' - ' + item['fim'],
                           status: item['status'],
-                          onPressed: () {
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (c) {
-                            //       return CancelBooking();
-                            //     },
-                            //   ),
-                            // );
-                          },
+                          onPressed: () {},
                         );
                       },
                     );

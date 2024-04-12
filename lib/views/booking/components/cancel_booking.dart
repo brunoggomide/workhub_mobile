@@ -130,7 +130,7 @@ class CancelBooking extends StatelessWidget {
               const BorderSide(width: 2, color: Color.fromRGBO(177, 47, 47, 1)),
         ),
         onPressed: () {
-          bookingDao.atualizar(ctx, id);
+          bookingDao.cancelar(ctx, id);
         },
         child: const Text(
           'CANCELAR',
