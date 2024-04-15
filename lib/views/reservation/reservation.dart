@@ -5,8 +5,8 @@ import '../../controllers/booking/booking_dao.dart';
 import '../../controllers/user/user_controller.dart';
 import '../../models/booking_model.dart';
 
-class ReservationDesk extends StatefulWidget {
-  const ReservationDesk({
+class Reservation extends StatefulWidget {
+  const Reservation({
     Key? key,
     required this.item,
     required this.id,
@@ -16,10 +16,10 @@ class ReservationDesk extends StatefulWidget {
   final String id;
 
   @override
-  State<ReservationDesk> createState() => _ReservationDeskState();
+  State<Reservation> createState() => _ReservationState();
 }
 
-class _ReservationDeskState extends State<ReservationDesk> {
+class _ReservationState extends State<Reservation> {
   final pageController = PageController(initialPage: 0);
   var txtDate = TextEditingController(text: 'Selecione o dia');
   var txtDate2 = TextEditingController();
@@ -53,7 +53,7 @@ class _ReservationDeskState extends State<ReservationDesk> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Reserva de Mesa ' + widget.item['title'],
+          'Reserva de ' + widget.item['titulo'],
           style: const TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -179,14 +179,17 @@ class _ReservationDeskState extends State<ReservationDesk> {
                     style: TextStyle(color: Colors.grey, fontSize: 22),
                   ),
                   SizedBox(height: 10),
-                  Row(
-                    children: [
-                      _buildPaymentMethodOption('Cartão', Icons.credit_card),
-                      SizedBox(width: 10),
-                      _buildPaymentMethodOption('Pix', Icons.qr_code),
-                      SizedBox(width: 10),
-                      _buildPaymentMethodOption('Dinheiro', Icons.money),
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildPaymentMethodOption('Cartão', Icons.credit_card),
+                        SizedBox(width: 10),
+                        _buildPaymentMethodOption('Pix', Icons.qr_code),
+                        SizedBox(width: 10),
+                        _buildPaymentMethodOption('Dinheiro', Icons.money),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -230,7 +233,7 @@ class _ReservationDeskState extends State<ReservationDesk> {
 
     // Converte o valor por hora de String para double e ajusta de acordo com a duração
     double valuePerHour =
-        double.parse(widget.item['value_hour'].replaceAll(',', '.'));
+        double.parse(widget.item['valor'].replaceAll(',', '.'));
     double totalValue = valuePerHour * durationHours;
 
     // Atualiza o campo de valor no Step2
@@ -249,7 +252,7 @@ class _ReservationDeskState extends State<ReservationDesk> {
         });
       },
       child: Container(
-        width: 80, // Definindo a largura fixa do contêiner
+        width: 100, // Definindo a largura fixa do contêiner
         height: 80, // Definindo a altura fixa do contêiner
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -505,15 +508,15 @@ class _ReservationDeskState extends State<ReservationDesk> {
                         const Text('O inicio deve ser após o horario atual'),
                   ),
                 );
-              } else if (!isWithinOpeningHours(widget.item['abertura'],
-                      widget.item['fechamento'], startTime) ||
-                  !isWithinOpeningHours(widget.item['abertura'],
-                      widget.item['fechamento'], endTime)) {
+              } else if (!isWithinOpeningHours(widget.item['hr_abertura'],
+                      widget.item['hr_fechamento'], startTime) ||
+                  !isWithinOpeningHours(widget.item['hr_abertura'],
+                      widget.item['hr_fechamento'], endTime)) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Colors.red[300],
                     content: Text(
-                        'Agendamento permitido das ${widget.item['abertura']} hrs até às ${widget.item['fechamento']} hrs'),
+                        'Agendamento permitido das ${widget.item['hr_abertura']} hrs até às ${widget.item['hr_fechamento']} hrs'),
                   ),
                 );
               } else {
@@ -571,11 +574,11 @@ class _ReservationDeskState extends State<ReservationDesk> {
         ),
         onPressed: () {
           endereco =
-              '${widget.item['address']}, ${widget.item['num_address']}${widget.item['complemento'].isNotEmpty ? ', ' + widget.item['complemento'] : ''}, ${widget.item['bairro']} - ${widget.item['city']} / ${widget.item['uf']}';
+              '${widget.item['endereco']}, ${widget.item['num_endereco']}${widget.item['complemento'].isNotEmpty ? ', ' + widget.item['complemento'] : ''}, ${widget.item['bairro']} - ${widget.item['cidade']} / ${widget.item['uf']}';
           if (selectedPaymentMethod.isNotEmpty) {
             var book = BookingModel(
               UserController().idUsuario(),
-              widget.item['uid'],
+              widget.item['UID_coworking'],
               widget.id,
               reservationValueText.toString(),
               selectedPaymentMethod,
@@ -584,7 +587,7 @@ class _ReservationDeskState extends State<ReservationDesk> {
               txtStart.text,
               txtEnd.text,
               endereco,
-              widget.item['title'],
+              widget.item['titulo'],
               '',
               '',
             );

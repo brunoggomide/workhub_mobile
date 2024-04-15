@@ -156,16 +156,6 @@ class _PlacesState extends State<Places> {
             ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromRGBO(177, 47, 47, 1),
-        onPressed: () {
-          // Implemente a lógica desejada para o botão de filtro
-        },
-        child: const Icon(
-          Icons.filter_alt,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -188,7 +178,7 @@ class _PlacesState extends State<Places> {
             final dados = snapshot.requireData;
             if (dados.size > 0) {
               List<QueryDocumentSnapshot> sortedData = dados.docs;
-              sortedData.sort((a, b) => a['title'].compareTo(b['title']));
+              sortedData.sort((a, b) => a['titulo'].compareTo(b['titulo']));
               return ListView.builder(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 physics: const BouncingScrollPhysics(),
@@ -196,14 +186,14 @@ class _PlacesState extends State<Places> {
                 itemBuilder: (context, index) {
                   dynamic item = sortedData[index].data();
                   String id = sortedData[index].id;
-                  String address = item['address'];
-                  String num_address = item['num_address'];
+                  String address = item['endereco'];
+                  String num_address = item['num_endereco'];
                   String bairro = item['bairro'];
                   String complemento = item['complemento'];
-                  String city = item['city'];
+                  String city = item['cidade'];
                   String uf = item['uf'];
-                  String title = item['title'];
-                  String image = item['image'][0];
+                  String title = item['titulo'];
+                  String image = item['fotos'][0];
                   if (city.contains(txtCity.text)) {
                     return ItemPlaces(
                       address:
@@ -273,14 +263,14 @@ class _PlacesState extends State<Places> {
                 itemBuilder: (context, index) {
                   dynamic item = sortedData[index].data();
                   String id = sortedData[index].id;
-                  String address = item['logradouro'];
+                  String address = item['endereco'];
                   String num_address = item['numero'];
                   String bairro = item['bairro'];
                   String complemento = item['complemento'];
                   String city = item['cidade'];
                   String uf = item['uf'];
                   String title = item['titulo'];
-                  String image = item['imagens'][0];
+                  String image = item['fotos'][0];
                   if (city.contains(txtCity.text)) {
                     return ItemPlaces(
                       address:

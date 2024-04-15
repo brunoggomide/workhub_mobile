@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../reservation/reservation_desk.dart';
+import '../reservation/reservation.dart';
 
 class DescriptionDesk extends StatefulWidget {
   const DescriptionDesk({
@@ -59,6 +59,17 @@ class _DescriptionDeskState extends State<DescriptionDesk> {
 
   @override
   Widget build(BuildContext context) {
+    var photoList = widget.item['fotos'] as List<dynamic>;
+    List<Widget> imageSliders = photoList.isNotEmpty
+        ? photoList
+            .map((item) => Image.network(item,
+                fit: BoxFit.cover, width: MediaQuery.of(context).size.width))
+            .toList()
+        : [
+            Image.asset('assets/images/noImage.jpg',
+                fit: BoxFit.cover, width: MediaQuery.of(context).size.width)
+          ];
+
     return Scaffold(
       body: Stack(
         children: [
@@ -70,18 +81,7 @@ class _DescriptionDeskState extends State<DescriptionDesk> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CarouselSlider(
-                        items: [
-                          Image.asset(
-                            'assets/images/place1.jpg',
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.height,
-                          ),
-                          Image.asset(
-                            'assets/images/place2.jpg',
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.height,
-                          ),
-                        ],
+                        items: imageSliders,
                         options: CarouselOptions(
                           height: 250,
                           enlargeCenterPage: true,
@@ -95,21 +95,20 @@ class _DescriptionDeskState extends State<DescriptionDesk> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      buildText(widget.item['title'], 20),
+                      buildText(widget.item['titulo'], 20),
                       const SizedBox(height: 5),
                       buildText(
-                        '${widget.item['address']}, ${widget.item['num_address']}${widget.item['complemento'].isNotEmpty ? ', ' + widget.item['complemento'] : ''}, ${widget.item['bairro']} - ${widget.item['city']} / ${widget.item['uf']}',
+                        '${widget.item['endereco']}, ${widget.item['num_endereco']}${widget.item['complemento'].isNotEmpty ? ', ' + widget.item['complemento'] : ''}, ${widget.item['bairro']} - ${widget.item['cidade']} / ${widget.item['uf']}',
                         14,
                       ),
                       const SizedBox(height: 10),
-                      buildText(
-                          'R\$ ' + widget.item['value_hour'] + '/ Hora', 18),
+                      buildText('R\$ ' + widget.item['valor'] + '/ Hora', 18),
                       const SizedBox(height: 10),
                       buildText(
                           'Seg - Sex ' +
-                              widget.item['abertura'] +
+                              widget.item['hr_abertura'] +
                               ' - ' +
-                              widget.item['fechamento'],
+                              widget.item['hr_fechamento'],
                           16),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -126,28 +125,28 @@ class _DescriptionDeskState extends State<DescriptionDesk> {
                         ),
                       ),
                       buildText('Recursos do espaço', 18),
-                      if (widget.item['coffe'] == true) ...[
+                      if (widget.item['cafe'] == true) ...[
                         const SizedBox(height: 10),
                         buildRowWithIcon(Icons.local_cafe, 'Café'),
                       ],
-                      if (widget.item['park'] == true) ...[
+                      if (widget.item['estacionamento'] == true) ...[
                         const SizedBox(height: 10),
                         buildRowWithIcon(Icons.local_parking, 'Estacionamento'),
                       ],
-                      if (widget.item['air'] == true) ...[
+                      if (widget.item['ar_condicionado'] == true) ...[
                         const SizedBox(height: 10),
                         buildRowWithIcon(Icons.severe_cold, 'Ar-condicionado'),
                       ],
-                      if (widget.item['accessibility'] == true) ...[
+                      if (widget.item['acessibilidade'] == true) ...[
                         const SizedBox(height: 10),
                         buildRowWithIcon(
                             Icons.wheelchair_pickup, 'Acessibilidade'),
                       ],
-                      if (widget.item['bike'] == true) ...[
+                      if (widget.item['bicicletario'] == true) ...[
                         const SizedBox(height: 10),
                         buildRowWithIcon(Icons.pedal_bike, 'Bicicletário'),
                       ],
-                      if (widget.item['space'] == true) ...[
+                      if (widget.item['espeço_interativo'] == true) ...[
                         const SizedBox(height: 10),
                         buildRowWithIcon(
                             Icons.interests_sharp, 'Espaço Interativo'),
@@ -169,7 +168,7 @@ class _DescriptionDeskState extends State<DescriptionDesk> {
                       buildText('Descrição', 18),
                       const SizedBox(height: 10),
                       buildText(
-                        widget.item['description'],
+                        widget.item['descricao'],
                         18,
                       ),
                     ],
@@ -191,7 +190,7 @@ class _DescriptionDeskState extends State<DescriptionDesk> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (c) {
-                          return ReservationDesk(
+                          return Reservation(
                             item: widget.item,
                             id: widget.id,
                           );

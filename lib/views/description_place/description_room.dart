@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../reservation/reservation_desk.dart';
+import '../reservation/reservation.dart';
 
 class DescriptionRoom extends StatefulWidget {
   const DescriptionRoom({
@@ -59,6 +59,17 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
 
   @override
   Widget build(BuildContext context) {
+    List<dynamic> photoList = widget.item['fotos'] ?? [];
+    List<Widget> imageSliders = photoList.isNotEmpty
+        ? photoList
+            .map((url) => Image.network(url,
+                fit: BoxFit.cover, width: MediaQuery.of(context).size.width))
+            .toList()
+        : [
+            Image.asset('assets/images/noImage.jpg',
+                fit: BoxFit.cover, width: MediaQuery.of(context).size.width)
+          ];
+
     return Scaffold(
       body: Stack(
         children: [
@@ -70,18 +81,7 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CarouselSlider(
-                        items: [
-                          Image.asset(
-                            'assets/images/place1.jpg',
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.height,
-                          ),
-                          Image.asset(
-                            'assets/images/place2.jpg',
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.height,
-                          ),
-                        ],
+                        items: imageSliders,
                         options: CarouselOptions(
                           height: 250,
                           enlargeCenterPage: true,
@@ -98,7 +98,7 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                       buildText(widget.item['titulo'], 20),
                       const SizedBox(height: 5),
                       buildText(
-                        '${widget.item['address']}, ${widget.item['num_address']}${widget.item['complemento'].isNotEmpty ? ', ' + widget.item['complemento'] : ''}, ${widget.item['bairro']} - ${widget.item['city']} / ${widget.item['uf']}',
+                        '${widget.item['endereco']}, ${widget.item['numero']}${widget.item['complemento'].isNotEmpty ? ', ' + widget.item['complemento'] : ''}, ${widget.item['bairro']} - ${widget.item['cidade']} / ${widget.item['uf']}',
                         14,
                       ),
                       const SizedBox(height: 10),
@@ -106,9 +106,9 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                       const SizedBox(height: 10),
                       buildText(
                           'Seg - Sex ' +
-                              widget.item['abertura'] +
+                              widget.item['hr_abertura'] +
                               ' - ' +
-                              widget.item['fechamento'],
+                              widget.item['hr_fechamento'],
                           16),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -139,16 +139,16 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                         const SizedBox(height: 10),
                         buildRowWithIcon(Icons.video_call, 'Projetor'),
                       ],
-                      if (widget.item['quadroBranco'] == true) ...[
+                      if (widget.item['quadro_branco'] == true) ...[
                         const SizedBox(height: 10),
                         buildRowWithIcon(Icons.airplay, 'Quadro Branco'),
                       ],
-                      // if (widget.item['videoConferencia'] == true) ...[
-                      //   const SizedBox(height: 10),
-                      //   buildRowWithIcon(
-                      //       Icons.interests_sharp, 'Espaço Interativo'),
-                      // ],
-                      if (widget.item['arCondicionado'] == true) ...[
+                      if (widget.item['videoconferencia'] == true) ...[
+                        const SizedBox(height: 10),
+                        buildRowWithIcon(
+                            Icons.interests_sharp, 'Espaço Interativo'),
+                      ],
+                      if (widget.item['ar_condicionado'] == true) ...[
                         const SizedBox(height: 10),
                         buildRowWithIcon(Icons.severe_cold, 'Ar-condicionado'),
                       ],
@@ -196,7 +196,7 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (c) {
-                          return ReservationDesk(
+                          return Reservation(
                             item: widget.item,
                             id: widget.id,
                           );
