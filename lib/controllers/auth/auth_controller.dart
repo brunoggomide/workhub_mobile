@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workhub_mobile/views/auth/login/login.dart';
+import 'package:workhub_mobile/views/homepage/homepage.dart';
 
 import '../../views/base/base.dart';
 import '../../views/utils/env.dart';
@@ -121,7 +122,7 @@ class AuthController {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (c) {
-          return const Login();
+          return const HomePage();
         },
       ),
     );
