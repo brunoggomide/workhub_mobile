@@ -41,6 +41,7 @@ class Booking extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
+        automaticallyImplyLeading: false,
         title: const Text(
           'Agendamentos',
           style: TextStyle(
@@ -99,6 +100,7 @@ class Booking extends StatelessWidget {
                                     title: item['local'],
                                     date: item['data'],
                                     time: item['inicio'] + ' - ' + item['fim'],
+                                    valor: item['valor'],
                                   );
                                 },
                               ),

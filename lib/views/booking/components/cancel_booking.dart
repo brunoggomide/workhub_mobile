@@ -9,6 +9,7 @@ class CancelBooking extends StatelessWidget {
     this.address = '',
     this.date = '',
     this.time = '',
+    this.valor = '',
   });
 
   final String id;
@@ -16,6 +17,7 @@ class CancelBooking extends StatelessWidget {
   final String address;
   final String date;
   final String time;
+  final String valor;
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +99,23 @@ class CancelBooking extends StatelessWidget {
                     ]),
                     Text(
                       address,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    ),
+                    const Divider(),
+                    const Row(children: [
+                      Icon(
+                        Icons.monetization_on_outlined,
+                        color: Colors.grey,
+                        size: 22,
+                      ),
+                      Text(
+                        ' Valor',
+                        style: TextStyle(color: Colors.grey, fontSize: 22),
+                      ),
+                    ]),
+                    Text(
+                      valor,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),

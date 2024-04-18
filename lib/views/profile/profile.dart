@@ -14,6 +14,7 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text(
           'Perfil',
