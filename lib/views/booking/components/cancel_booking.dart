@@ -19,7 +19,6 @@ class CancelBooking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(id);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

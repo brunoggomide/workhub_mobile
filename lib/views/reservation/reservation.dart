@@ -551,7 +551,6 @@ class _ReservationState extends State<Reservation> {
                   ),
                 );
               } else {
-                print(widget.type);
                 BookingDao bookingDao = BookingDao();
                 if (widget.type == 'room') {
                   List<dynamic> result = await bookingDao.checkAvailabilityRoom(

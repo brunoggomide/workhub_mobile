@@ -38,7 +38,6 @@ class Profile extends StatelessWidget {
             final dados = snapshot.requireData;
             dynamic item = dados.docs[0].data();
             String id = dados.docs[0].id;
-            print(item);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [

@@ -75,9 +75,6 @@ class BookingDao {
           reservationEndHour,
           reservationEndMinute);
 
-      print(reservationStart);
-      print(reservationEnd);
-
       if ((startTime.isBefore(reservationEnd) &&
               startTime.isAfter(reservationStart)) ||
           (endTime.isBefore(reservationEnd) &&
@@ -150,8 +147,6 @@ class BookingDao {
               endTime.isAfter(reservationStart))) {
         mesasOcupadas++;
       }
-      print(mesasOcupadas);
-      print(numMesasDisponiveis);
     }
 
     // Verifica se o número de mesas disponíveis é suficiente para o agendamento
