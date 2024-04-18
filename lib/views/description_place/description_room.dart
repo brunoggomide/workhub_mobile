@@ -199,6 +199,7 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                           return Reservation(
                             item: widget.item,
                             id: widget.id,
+                            type: 'room',
                           );
                         },
                       ),

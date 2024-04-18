@@ -82,7 +82,6 @@ class Booking extends StatelessWidget {
                         List<String> dateParts = item['data'].split('/');
                         String formattedMonth = _convertMonth(dateParts[1]);
                         String formattedDay = _formatDay(dateParts[0]);
-                        print(item);
                         return ItemBooking(
                           address: item['endereco'],
                           title: item['local'],
@@ -179,7 +178,6 @@ class Booking extends StatelessWidget {
                         List<String> dateParts = item['data'].split('/');
                         String formattedMonth = _convertMonth(dateParts[1]);
                         String formattedDay = _formatDay(dateParts[0]);
-                        print(item);
                         return ItemBooking(
                           address: item['endereco'],
                           title: item['local'],

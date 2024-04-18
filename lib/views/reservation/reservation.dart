@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:workhub_mobile/views/reservation/components/calendar.dart';
 
 import '../../controllers/booking/booking_dao.dart';
 import '../../controllers/user/user_controller.dart';
@@ -10,10 +11,12 @@ class Reservation extends StatefulWidget {
     Key? key,
     required this.item,
     required this.id,
+    required this.type,
   }) : super(key: key);
 
   final dynamic item;
   final String id;
+  final String type;
 
   @override
   State<Reservation> createState() => _ReservationState();
@@ -85,7 +88,35 @@ class _ReservationState extends State<Reservation> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
               child: Column(
-                children: [DateText(), StartText(), EndText()],
+                children: [
+                  DateText(),
+                  StartText(),
+                  EndText(),
+                  txtDate.text != 'Selecione o dia' && widget.type == 'room'
+                      ? TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (c) {
+                                  return Calendar(
+                                    id: widget.id,
+                                    date: txtDate.text,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Verificar Disponibilidade',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      : Container()
+                ],
               ),
             )),
         Expanded(child: Container()),
@@ -457,7 +488,7 @@ class _ReservationState extends State<Reservation> {
             const Color.fromRGBO(177, 47, 47, 1),
           ),
         ),
-        onPressed: () {
+        onPressed: () async {
           if (step == 1) {
             if (txtDate.text == 'Selecione o dia' ||
                 txtStart.text == 'Selecione o início' ||
@@ -520,11 +551,56 @@ class _ReservationState extends State<Reservation> {
                   ),
                 );
               } else {
-                calculateAndSetReservationValue();
-                pageController.nextPage(
-                  duration: Duration(milliseconds: 400),
-                  curve: Curves.easeIn,
-                );
+                print(widget.type);
+                BookingDao bookingDao = BookingDao();
+                if (widget.type == 'room') {
+                  List<dynamic> result = await bookingDao.checkAvailabilityRoom(
+                      txtDate.text,
+                      DateTime(selectedDate.year, selectedDate.month,
+                          selectedDate.day, startTime.hour, startTime.minute),
+                      DateTime(selectedDate.year, selectedDate.month,
+                          selectedDate.day, endTime.hour, endTime.minute),
+                      widget.id);
+                  if (!result[0]) {
+                    String startTimeString = result[1];
+                    String endTimeString = result[2];
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red[300],
+                        content: Text(
+                            'Conflito com agendamento das $startTimeString até $endTimeString, tente outro horário ou sala.'),
+                      ),
+                    );
+                  } else {
+                    calculateAndSetReservationValue();
+                    pageController.nextPage(
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.easeIn,
+                    );
+                  }
+                } else if (widget.type == 'desk') {
+                  bool isAvailable = await bookingDao.checkAvailabilityDesk(
+                      txtDate.text,
+                      DateTime(selectedDate.year, selectedDate.month,
+                          selectedDate.day, startTime.hour, startTime.minute),
+                      DateTime(selectedDate.year, selectedDate.month,
+                          selectedDate.day, endTime.hour, endTime.minute),
+                      widget.id);
+                  if (!isAvailable) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red[300],
+                        content: const Text('Agenda cheia nesse horário.'),
+                      ),
+                    );
+                  } else {
+                    calculateAndSetReservationValue();
+                    pageController.nextPage(
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.easeIn,
+                    );
+                  }
+                }
               }
             }
           }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workhub_mobile/views/profile/components/widgets/edit-contato.dart';
 import 'package:workhub_mobile/views/profile/components/widgets/edit-name.dart';
+import 'package:workhub_mobile/views/profile/components/widgets/edit-password.dart';
 import 'package:workhub_mobile/views/profile/components/widgets/profile-detail.dart';
 
 class AccountDetail extends StatefulWidget {
@@ -71,25 +72,6 @@ class _AccountDetailState extends State<AccountDetail> {
                   color: Colors.red,
                 ),
               ),
-            ),
-            Center(
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      // Adicione a lógica que você deseja executar quando o botão for pressionado
-                    },
-                    child: const Text(
-                      'Editar Foto',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -238,7 +220,13 @@ class _AccountDetailState extends State<AccountDetail> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      // Adicione a lógica que você deseja executar quando o botão for pressionado
+                      showDialog(
+                          context: context,
+                          builder: (_) {
+                            return EditPassword(
+                              email: widget.item['email'],
+                            );
+                          });
                     },
                     child: const Text(
                       'Alterar senha',

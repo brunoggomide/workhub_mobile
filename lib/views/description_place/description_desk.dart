@@ -193,6 +193,7 @@ class _DescriptionDeskState extends State<DescriptionDesk> {
                           return Reservation(
                             item: widget.item,
                             id: widget.id,
+                            type: 'desk',
                           );
                         },
                       ),
