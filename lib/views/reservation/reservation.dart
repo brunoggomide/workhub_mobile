@@ -92,7 +92,7 @@ class _ReservationState extends State<Reservation> {
                   DateText(),
                   StartText(),
                   EndText(),
-                  txtDate.text != 'Selecione o dia' && widget.type == 'room'
+                  txtDate.text != 'Selecione o dia'
                       ? TextButton(
                           onPressed: () {
                             Navigator.of(context).push(

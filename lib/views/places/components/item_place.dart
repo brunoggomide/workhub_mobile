@@ -7,10 +7,14 @@ class ItemPlaces extends StatelessWidget {
     required this.address,
     required this.path,
     required this.onPressed,
+    this.type = '',
+    this.num_mesas = '',
   });
 
   final String title;
   final String address;
+  final String type;
+  final String num_mesas;
   final dynamic path;
   final VoidCallback onPressed;
 
@@ -74,6 +78,18 @@ class ItemPlaces extends StatelessWidget {
                             color: Colors.grey),
                       ),
                     ),
+                    type == 'desk'
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Text(
+                              num_mesas + ' disponível',
+                              style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green),
+                            ),
+                          )
+                        : SizedBox()
                   ],
                 ),
                 shape: RoundedRectangleBorder(

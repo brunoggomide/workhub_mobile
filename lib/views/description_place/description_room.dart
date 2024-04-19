@@ -137,7 +137,7 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                       ],
                       if (widget.item['projetor'] == true) ...[
                         const SizedBox(height: 10),
-                        buildRowWithIcon(Icons.video_call, 'Projetor'),
+                        buildRowWithIcon(Icons.camera_outdoor, 'Projetor'),
                       ],
                       if (widget.item['quadro_branco'] == true) ...[
                         const SizedBox(height: 10),
@@ -145,8 +145,7 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                       ],
                       if (widget.item['videoconferencia'] == true) ...[
                         const SizedBox(height: 10),
-                        buildRowWithIcon(
-                            Icons.interests_sharp, 'Espaço Interativo'),
+                        buildRowWithIcon(Icons.video_call, 'Video Conferência'),
                       ],
                       if (widget.item['ar_condicionado'] == true) ...[
                         const SizedBox(height: 10),

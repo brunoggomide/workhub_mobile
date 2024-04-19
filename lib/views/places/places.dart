@@ -194,12 +194,15 @@ class _PlacesState extends State<Places> {
                   String uf = item['uf'];
                   String title = item['titulo'];
                   String image = item['fotos'][0];
+                  String num_mesas = item['num_mesas'];
                   if (city.contains(txtCity.text)) {
                     return ItemPlaces(
                       address:
                           '$address, $num_address${complemento.isNotEmpty ? ', $complemento' : ''}, $bairro - $city - $uf',
                       title: title,
                       path: image.isEmpty ? 'assets/images/noImage.jpg' : image,
+                      type: 'desk',
+                      num_mesas: num_mesas,
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

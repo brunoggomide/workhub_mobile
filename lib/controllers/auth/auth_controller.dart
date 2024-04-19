@@ -13,7 +13,7 @@ class AuthController {
         .createUserWithEmailAndPassword(email: email, password: senha)
         .then((res) {
       // Enviar confirmação do e-mail
-      // res.user!.sendEmailVerification();
+      res.user!.sendEmailVerification();
 
       FirebaseFirestore.instance.collection('clientes').add({
         'uid': res.user!.uid,
@@ -59,18 +59,18 @@ class AuthController {
         FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: senha)
             .then((res) {
-          // if (res.user!.emailVerified) {
-          sucesso(context, 'Usuário autenticado com sucesso!');
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: ((c) {
-                return const BaseScreen();
-              }),
-            ),
-          );
-          // } else {
-          //   erro(context, 'O endereço de e-mail não foi confirmado.');
-          // }
+          if (res.user!.emailVerified) {
+            sucesso(context, 'Usuário autenticado com sucesso!');
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: ((c) {
+                  return const BaseScreen();
+                }),
+              ),
+            );
+          } else {
+            erro(context, 'O endereço de e-mail não foi confirmado.');
+          }
         }).catchError((e) {
           switch (e.code) {
             case 'user-not-found':
