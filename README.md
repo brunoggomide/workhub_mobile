@@ -1,16 +1,7 @@
-# workhub_mobile
+# Work-Hub Mobile
 
-A new Flutter project.
+Este projeto é parte do Trabalho de Conclusão de Curso (TCC) para o curso de Engenharia de Software na Universidade de Ribeirão Preto (UNAERP). O "Work-Hub" é um aplicativo desenvolvido em Flutter destinado a facilitar a busca e reserva de espaços de coworking.
 
-## Getting Started
+## Sobre o Aplicativo
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+"Work-Hub" é um aplicativo móvel que permite aos usuários localizar ambientes de coworking no estado de SP, verificar a disponibilidade de espaços e realizar reservas diretamente pelo telefone. Este aplicativo busca proporcionar uma solução prática para profissionais e estudantes que necessitam de um espaço flexível e equipado para suas atividades diárias.

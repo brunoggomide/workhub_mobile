@@ -151,7 +151,7 @@ class ItemBooking extends StatelessWidget {
                           child: Text(
                             time,
                             style: const TextStyle(
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                           ),
