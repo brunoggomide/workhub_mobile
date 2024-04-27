@@ -30,6 +30,9 @@ class ItemPlaces extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int mesaCount = int.parse(num_mesas);
+    String disponibilidadeText =
+        mesaCount == 1 ? ' Disponível' : ' Disponíveis';
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -82,7 +85,7 @@ class ItemPlaces extends StatelessWidget {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: Text(
-                              num_mesas + ' disponível',
+                              num_mesas + disponibilidadeText,
                               style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,

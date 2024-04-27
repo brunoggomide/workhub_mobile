@@ -72,7 +72,7 @@ class _EditContatoState extends State<EditContato> {
                   inputFormatters: [celFormat],
                   controller: txtController,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email),
+                    prefixIcon: const Icon(Icons.phone),
                     labelText: widget.title,
                     isDense: true,
                     border: OutlineInputBorder(

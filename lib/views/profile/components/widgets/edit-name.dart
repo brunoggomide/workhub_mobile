@@ -63,7 +63,7 @@ class _EditNameState extends State<EditName> {
                   autofocus: true,
                   controller: txtController,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email),
+                    prefixIcon: const Icon(Icons.person),
                     labelText: widget.title,
                     isDense: true,
                     border: OutlineInputBorder(

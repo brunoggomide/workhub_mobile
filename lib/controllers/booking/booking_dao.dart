@@ -174,6 +174,7 @@ class BookingDao {
 
   Stream<QuerySnapshot> listarConfirmados(String userId) {
     var now = DateTime.now();
+    var tomorrow = now.subtract(Duration(days: 1));
     var ref = FirebaseFirestore.instance.collection('reservas');
     return ref
         .where('uid_cliente', isEqualTo: userId)
@@ -182,7 +183,7 @@ class BookingDao {
         .asyncMap((snapshot) async {
       for (var doc in snapshot.docs) {
         DateTime bookingDate = DateFormat('dd/MM/yyyy').parse(doc['data']);
-        if (bookingDate.isBefore(now)) {
+        if (bookingDate.isBefore(tomorrow)) {
           await doc.reference.update({'status': 'Finalizado'});
         }
       }

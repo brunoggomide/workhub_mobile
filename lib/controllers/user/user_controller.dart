@@ -24,4 +24,27 @@ class UserController {
         .then((value) => sucesso(context, 'Atualizado com sucesso'))
         .catchError((e) => erro(context, 'ERRO: ${e.code.toString()}'));
   }
+
+  getEmpresaData(String empresaId) async {
+    try {
+      var empresa = await FirebaseFirestore.instance
+          .collection('empresas')
+          .where('uid', isEqualTo: empresaId)
+          .limit(1)
+          .get();
+
+      if (empresa.docs.isNotEmpty) {
+        return {
+          'nome': empresa.docs.first.data()['nome'] as String?,
+          'contato': empresa.docs.first.data()['contato'] as String?,
+          'email': empresa.docs.first.data()['email'] as String?
+        };
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao buscar dados da empresa: $e');
+      return null;
+    }
+  }
 }

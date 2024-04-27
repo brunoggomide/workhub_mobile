@@ -267,7 +267,7 @@ class _PlacesState extends State<Places> {
                   dynamic item = sortedData[index].data();
                   String id = sortedData[index].id;
                   String address = item['endereco'];
-                  String num_address = item['numero'];
+                  String num_address = item['num_endereco'];
                   String bairro = item['bairro'];
                   String complemento = item['complemento'];
                   String city = item['cidade'];

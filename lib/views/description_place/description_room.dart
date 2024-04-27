@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../controllers/user/user_controller.dart';
 import '../reservation/reservation.dart';
 
 class DescriptionRoom extends StatefulWidget {
@@ -18,6 +19,28 @@ class DescriptionRoom extends StatefulWidget {
 }
 
 class _DescriptionRoomState extends State<DescriptionRoom> {
+  String nomeEmpresa = '';
+  String contatoEmpresa = '';
+  String emailEmpresa = '';
+
+  @override
+  void initState() {
+    super.initState();
+    carregarDadosEmpresa();
+  }
+
+  void carregarDadosEmpresa() async {
+    var dadosEmpresa =
+        await UserController().getEmpresaData(widget.item['UID_coworking']);
+    if (dadosEmpresa != null) {
+      setState(() {
+        nomeEmpresa = dadosEmpresa['nome'] ?? 'Nome não disponível';
+        contatoEmpresa = dadosEmpresa['contato'] ?? 'Contato não disponível';
+        emailEmpresa = dadosEmpresa['email'] ?? 'Email não disponível';
+      });
+    }
+  }
+
   Widget buildText(String text, double fontSize) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -124,7 +147,7 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                           ],
                         ),
                       ),
-                      buildText('Recursos do espaço', 18),
+                      buildText('Recursos do espaço', 20),
                       const SizedBox(height: 10),
                       buildRowWithIcon(
                           Icons.people,
@@ -170,12 +193,34 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                           ],
                         ),
                       ),
-                      buildText('Descrição', 18),
+                      buildText('Descrição', 20),
                       const SizedBox(height: 10),
                       buildText(
                         widget.item['descricao'],
                         18,
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: Colors.grey.withAlpha(90),
+                                thickness: 2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      buildText('Informações adicionais', 20),
+                      const SizedBox(height: 10),
+                      buildText('Nome: $nomeEmpresa', 18),
+                      const SizedBox(height: 10),
+                      buildText('Contato: $contatoEmpresa', 18),
+                      const SizedBox(height: 10),
+                      buildText('E-mail: $emailEmpresa', 18),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
