@@ -280,6 +280,7 @@ class _PlacesState extends State<Places> {
                           '$address, $num_address${complemento.isNotEmpty ? ', $complemento' : ''}, $bairro - $city - $uf',
                       title: title,
                       path: image.isEmpty ? 'assets/images/noImage.jpg' : image,
+                      num_mesas: '0',
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
