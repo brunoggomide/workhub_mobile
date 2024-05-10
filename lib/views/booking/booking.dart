@@ -7,7 +7,7 @@ import 'package:workhub_mobile/views/booking/components/item_booking.dart';
 import '../../controllers/user/user_controller.dart';
 
 class Booking extends StatelessWidget {
-  const Booking({Key? key});
+  const Booking({Key? key}) : super(key: key);
 
   String _convertMonth(String monthNumber) {
     Map<String, String> months = {
@@ -32,6 +32,14 @@ class Booking extends StatelessWidget {
       return day.substring(1);
     }
     return day;
+  }
+
+  String _normalizeDate(String date) {
+    var parts = date.split('/');
+    if (parts.length == 3) {
+      return '${parts[2]}-${parts[1]}-${parts[0]}';
+    }
+    return date;
   }
 
   @override
@@ -71,7 +79,8 @@ class Booking extends StatelessWidget {
                   final dados = snapshot.requireData;
                   if (dados.size > 0) {
                     List<QueryDocumentSnapshot> sortedData = dados.docs;
-                    sortedData.sort((a, b) => a['data'].compareTo(b['data']));
+                    sortedData.sort((a, b) => _normalizeDate(a['data'])
+                        .compareTo(_normalizeDate(b['data'])));
                     return ListView.builder(
                       shrinkWrap: true,
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -117,8 +126,6 @@ class Booking extends StatelessWidget {
                 }
               },
             ),
-
-            // Divisor
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
@@ -132,11 +139,8 @@ class Booking extends StatelessWidget {
                 ],
               ),
             ),
-            // Seção de agendamentos não confirmados
             const Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 'Reservas finalizadas',
                 style: TextStyle(
@@ -146,14 +150,10 @@ class Booking extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             StreamBuilder<QuerySnapshot>(
               stream: BookingDao()
-                  .listarFinalizados(
-                    UserController().idUsuario(),
-                  )
+                  .listarFinalizados(UserController().idUsuario())
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.none) {
@@ -169,7 +169,8 @@ class Booking extends StatelessWidget {
                   final dados = snapshot.requireData;
                   if (dados.size > 0) {
                     List<QueryDocumentSnapshot> sortedData = dados.docs;
-                    sortedData.sort((b, a) => a['data'].compareTo(b['data']));
+                    sortedData.sort((b, a) => _normalizeDate(a['data'])
+                        .compareTo(_normalizeDate(b['data'])));
                     return ListView.builder(
                       shrinkWrap: true,
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
