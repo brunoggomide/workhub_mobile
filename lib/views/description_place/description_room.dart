@@ -172,7 +172,7 @@ class _DescriptionRoomState extends State<DescriptionRoom> {
                       ],
                       if (widget.item['ar_condicionado'] == true) ...[
                         const SizedBox(height: 10),
-                        buildRowWithIcon(Icons.severe_cold, 'Ar-condicionado'),
+                        buildRowWithIcon(Icons.ac_unit, 'Ar-condicionado'),
                       ],
                       if (widget.item['acessibilidade'] == true) ...[
                         const SizedBox(height: 10),
