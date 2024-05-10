@@ -160,8 +160,6 @@ class _PlacesState extends State<Places> {
   }
 
   Widget ShowTable() {
-    bool noDataMessageShown = false;
-
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: DeskDao().listar().snapshots(),
@@ -179,23 +177,35 @@ class _PlacesState extends State<Places> {
             if (dados.size > 0) {
               List<QueryDocumentSnapshot> sortedData = dados.docs;
               sortedData.sort((a, b) => a['titulo'].compareTo(b['titulo']));
-              return ListView.builder(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                physics: const BouncingScrollPhysics(),
-                itemCount: sortedData.length,
-                itemBuilder: (context, index) {
-                  dynamic item = sortedData[index].data();
-                  String id = sortedData[index].id;
-                  String address = item['endereco'];
-                  String num_address = item['num_endereco'];
-                  String bairro = item['bairro'];
-                  String complemento = item['complemento'];
-                  String city = item['cidade'];
-                  String uf = item['uf'];
-                  String title = item['titulo'];
-                  String image = item['fotos'][0];
-                  String num_mesas = item['num_mesas'];
-                  if (city.contains(txtCity.text)) {
+
+              // Filtra dados pela cidade especificada no campo de texto
+              List<QueryDocumentSnapshot> filteredData = sortedData
+                  .where((doc) => doc['cidade'].contains(txtCity.text))
+                  .toList();
+
+              if (filteredData.isEmpty) {
+                // Se não houver dados para a cidade, mostra a mensagem uma vez
+                return const Center(
+                  child: Text('Ainda não temos mesas nessa cidade.'),
+                );
+              } else {
+                // Constrói a lista com os dados filtrados
+                return ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: filteredData.length,
+                  itemBuilder: (context, index) {
+                    dynamic item = filteredData[index].data();
+                    String id = filteredData[index].id;
+                    String address = item['endereco'];
+                    String num_address = item['num_endereco'];
+                    String bairro = item['bairro'];
+                    String complemento = item['complemento'];
+                    String city = item['cidade'];
+                    String uf = item['uf'];
+                    String title = item['titulo'];
+                    String image = item['fotos'][0];
+                    String num_mesas = item['num_mesas'];
                     return ItemPlaces(
                       address:
                           '$address, $num_address${complemento.isNotEmpty ? ', $complemento' : ''}, $bairro - $city - $uf',
@@ -216,18 +226,9 @@ class _PlacesState extends State<Places> {
                         );
                       },
                     );
-                  } else {
-                    if (!noDataMessageShown) {
-                      noDataMessageShown = true;
-                      return const Center(
-                        child: Text('Ainda não temos mesas nessa cidade.'),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  }
-                },
-              );
+                  },
+                );
+              }
             } else {
               return const Center(
                 child: Text('Sem dados.'),
@@ -240,8 +241,6 @@ class _PlacesState extends State<Places> {
   }
 
   Widget ShowRoom() {
-    bool noDataMessageShown = false;
-
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: RoomDao().listar().snapshots(),
@@ -259,22 +258,34 @@ class _PlacesState extends State<Places> {
             if (dados.size > 0) {
               List<QueryDocumentSnapshot> sortedData = dados.docs;
               sortedData.sort((a, b) => a['titulo'].compareTo(b['titulo']));
-              return ListView.builder(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                physics: const BouncingScrollPhysics(),
-                itemCount: sortedData.length,
-                itemBuilder: (context, index) {
-                  dynamic item = sortedData[index].data();
-                  String id = sortedData[index].id;
-                  String address = item['endereco'];
-                  String num_address = item['num_endereco'];
-                  String bairro = item['bairro'];
-                  String complemento = item['complemento'];
-                  String city = item['cidade'];
-                  String uf = item['uf'];
-                  String title = item['titulo'];
-                  String image = item['fotos'][0];
-                  if (city.contains(txtCity.text)) {
+
+              // Filtra dados pela cidade especificada no campo de texto
+              List<QueryDocumentSnapshot> filteredData = sortedData
+                  .where((doc) => doc['cidade'].contains(txtCity.text))
+                  .toList();
+
+              if (filteredData.isEmpty) {
+                // Se não houver dados para a cidade, mostra a mensagem uma vez
+                return const Center(
+                  child: Text('Ainda não temos salas de reunião nessa cidade.'),
+                );
+              } else {
+                // Constrói a lista com os dados filtrados
+                return ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: filteredData.length,
+                  itemBuilder: (context, index) {
+                    dynamic item = filteredData[index].data();
+                    String id = filteredData[index].id;
+                    String address = item['endereco'];
+                    String num_address = item['num_endereco'];
+                    String bairro = item['bairro'];
+                    String complemento = item['complemento'];
+                    String city = item['cidade'];
+                    String uf = item['uf'];
+                    String title = item['titulo'];
+                    String image = item['fotos'][0];
                     return ItemPlaces(
                       address:
                           '$address, $num_address${complemento.isNotEmpty ? ', $complemento' : ''}, $bairro - $city - $uf',
@@ -294,19 +305,9 @@ class _PlacesState extends State<Places> {
                         );
                       },
                     );
-                  } else {
-                    if (!noDataMessageShown) {
-                      noDataMessageShown = true;
-                      return const Center(
-                        child: Text(
-                            'Ainda não temos salas de reunião nessa cidade.'),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  }
-                },
-              );
+                  },
+                );
+              }
             } else {
               return const Center(
                 child: Text('Sem dados.'),
